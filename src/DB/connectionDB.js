@@ -1,21 +1,15 @@
-import { Sequelize } from "sequelize";
- export const sequelize = new Sequelize("assignment5", "root", "root", {
-    host: "localhost",
-    dialect: "mysql",
-});
+import { MongoClient } from 'mongodb';
+
+const url = 'mongodb://localhost:27017';
+const client = new MongoClient(url);
+
+export const db = client.db('assignment7');
+
 export const connectionDB = async () => {
     try {
-        await sequelize.authenticate();
-        console.log("Connection has been established successfully.");
+        await client.connect();
+        console.log('Connected to MongoDB');
     } catch (error) {
-        console.error("Unable to connect to the database:", error);
-    }
-};
-export const syncDB = async () => {
-    try {
-        await sequelize.sync({ alter: false, force: false });
-        console.log("Database synchronized successfully.");
-    } catch (error) {
-        console.error("Unable to synchronize the database:", error);
+        console.log(error);
     }
 };
